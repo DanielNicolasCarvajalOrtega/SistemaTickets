@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Bienvenido al Sistema de Tickets</h1>
+    {% if user.is_authenticated %}
+        <p class="mb-4">Hola, {{ user.username }}. ¿En qué podemos ayudarte hoy?</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="insertar_tickets.html" class="bg-blue-500 text-white p-4 rounded hover:bg-blue-600 text-center">
+                Crear nuevo ticket
+            </a>
+            <a href="listar_tickets.html" class="bg-green-500 text-white p-4 rounded hover:bg-green-600 text-center">
+                Ver mis tickets
+            </a>
+            <a href="eliminar_tickets.html" class="bg-green-500 text-white p-4 rounded hover:bg-green-600 text-center">
+                Eliminar tickets
+            </a>
+            <a href="modificar_tickets.html" class="bg-green-500 text-white p-4 rounded hover:bg-green-600 text-center">
+                Modificar tickets
+            </a>
+        </div>
+
+    {% else %}
+        <p class="mb-4">Por favor, inicia sesión o regístrate para comenzar a usar el sistema de tickets.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="{% url 'login' %}" class="bg-blue-500 text-white p-4 rounded hover:bg-blue-600 text-center">
+                Iniciar sesión
+            </a>
+            <a href="{% url 'registro' %}" class="bg-green-500 text-white p-4 rounded hover:bg-green-600 text-center">
+                Registrarse
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
