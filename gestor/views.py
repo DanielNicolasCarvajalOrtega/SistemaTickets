@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import FormularioRegistroUsuario, FormularioLogin
-from .models import Cliente
-
+from .forms import ClienteForm, TecnicoForm, FormularioRegistroUsuario, FormularioLogin
+from .models import Cliente, Tecnico
 
 
 def registro(request):
@@ -17,7 +16,7 @@ def registro(request):
             usuario, cliente = Cliente.crear_usuario(nombre_usuario, correo, contraseña)
             login(request, usuario)
             messages.success(request, f'¡Cuenta creada para {nombre_usuario}! Has iniciado sesión.')
-            return redirect('inicio')  # Asegúrate de tener una vista 'inicio'
+            return redirect('inicio')
         else:
             for field, errors in formulario.errors.items():
                 for error in errors:
@@ -25,6 +24,30 @@ def registro(request):
     else:
         formulario = FormularioRegistroUsuario()
     return render(request, 'registro.html', {'formulario': formulario})
+
+
+def crear_cliente(request):
+    if request.method == 'POST':
+        formulario = ClienteForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, 'Cliente creado exitosamente.')
+            return redirect('inicio')
+    else:
+        formulario = ClienteForm()
+    return render(request, 'crear_cliente.html', {'formulario': formulario})
+
+
+def crear_tecnico(request):
+    if request.method == 'POST':
+        formulario = TecnicoForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, 'Técnico creado exitosamente.')
+            return redirect('inicio')
+    else:
+        formulario = TecnicoForm()
+    return render(request, 'crear_tecnico.html', {'formulario': formulario})
 
 
 def inicio_sesion(request):
@@ -37,12 +60,13 @@ def inicio_sesion(request):
             if usuario is not None:
                 login(request, usuario)
                 messages.success(request, f'¡Bienvenido, {nombre_usuario}!')
-                return redirect('inicio')  # Redirigir a la página de inicio después del login
+                return redirect('inicio')
             else:
                 messages.error(request, 'Nombre de usuario o contraseña inválidos')
     else:
         formulario = FormularioLogin()
     return render(request, 'login.html', {'formulario': formulario})
+
 
 @login_required
 def inicio(request):

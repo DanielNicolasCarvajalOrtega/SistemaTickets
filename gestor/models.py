@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 class Rol(models.Model):
     id_rol = models.AutoField(primary_key=True)
@@ -11,33 +12,49 @@ class Rol(models.Model):
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
+    contraseña = models.CharField(max_length=128) 
     correo_electronico = models.EmailField(max_length=100, unique=True)
     telefono = models.CharField(max_length=11)
-    id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE, default=1)  # Asumimos que el ID 1 es el rol de cliente
+    id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE, default=1)  
 
     def __str__(self):
         return self.nombre
 
     @classmethod
     def crear_usuario(cls, nombre_usuario, correo, contraseña):
+        # Crear usuario en el sistema de autenticación
         usuario = User.objects.create_user(nombre_usuario, correo, contraseña)
+        # Crear cliente asociado con contraseña hasheada
         cliente = cls.objects.create(
             nombre=nombre_usuario,
             correo_electronico=correo,
-            telefono='',  # Podemos dejar esto vacío por ahora
-            id_rol_id=1  # Asumimos que el ID 1 es el rol de cliente
+            contraseña=make_password(contraseña),  
+            telefono='',  #
+            id_rol_id=1  
         )
         return usuario, cliente
 
 class Tecnico(models.Model):
     id_tecnico = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
+    contraseña = models.CharField(max_length=128)  # Incrementamos el tamaño para contraseñas hasheadas
     correo_electronico = models.EmailField(max_length=100, unique=True)
     telefono = models.CharField(max_length=11)
     id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre
+
+    @classmethod
+    def crear_tecnico(cls, nombre_tecnico, correo, contraseña, id_rol=2):  # Supongamos que 2 es el rol por defecto para técnicos
+        tecnico = cls.objects.create(
+            nombre=nombre_tecnico,
+            correo_electronico=correo,
+            contraseña=make_password(contraseña),  # Hashear la contraseña
+            telefono='',  # Puede dejarse vacío inicialmente
+            id_rol_id=id_rol
+        )
+        return tecnico
 
 class Ticket(models.Model):
     # Definimos los estados posibles del ticket
