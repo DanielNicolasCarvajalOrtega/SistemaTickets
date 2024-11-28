@@ -53,7 +53,7 @@ def inicio_sesion(request):
                 try:
                     usuario_personalizado = Usuario.objects.get(correo_electronico=usuario.email)
                     if usuario_personalizado.es_tecnico:
-                        return redirect('inicio_tecnico')
+                        return redirect('tecnico/')
                     else:
                         return redirect('inicio_cliente')
                 except Usuario.DoesNotExist:

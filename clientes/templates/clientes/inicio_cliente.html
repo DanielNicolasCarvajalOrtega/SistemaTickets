@@ -1,65 +1,58 @@
 {% extends './base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% endfor %}
-  {% endif %}
-
-  <div class="row mb-4">
-    <div class="col">
-      <h1 class="text-primary">Bienvenido, {{ request.user.cliente.nombre }}</h1>
+<div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Bienvenido, {{ request.user.cliente.nombre }}</h3>
+        <a href="{% url 'crear_ticket_cliente' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Crear Nuevo Ticket
+        </a>
     </div>
-    <div class="col-auto">
-      <a href="{% url 'crear_ticket_cliente' %}" class="btn btn-primary">Crear Nuevo Ticket</a>
+    <div class="border-t border-gray-200">
+        {% if tickets %}
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Creación</th>
+                        <th scope="col" class="relative px-6 py-3">
+                            <span class="sr-only">Acciones</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for ticket in tickets %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ ticket.id_ticket }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ ticket.descripcion|truncatechars:50 }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {% if ticket.estado == 'abierto' %}
+                                        bg-green-100 text-green-800
+                                    {% elif ticket.estado == 'en_proceso' %}
+                                        bg-yellow-100 text-yellow-800
+                                    {% else %}
+                                        bg-gray-100 text-gray-800
+                                    {% endif %}">
+                                    {{ ticket.get_estado_display }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ ticket.fecha_creacion|date:"d/m/Y H:i" }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <a href=" " class="text-indigo-600 hover:text-indigo-900">Ver Detalles</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="px-4 py-5 sm:p-6 text-center">
+                <p class="text-sm text-gray-500">No tienes tickets actualmente. ¡Crea uno nuevo para comenzar!</p>
+            </div>
+        {% endif %}
     </div>
-  </div>
-
-  <div class="card shadow">
-    <div class="card-header bg-primary text-white">
-      <h2 class="h4 mb-0">Mis Tickets</h2>
-    </div>
-    <div class="card-body">
-      {% if tickets %}
-        <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Fecha de Creación</th>
-                <th scope="col">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for ticket in tickets %}
-                <tr>
-                  <th scope="row">{{ ticket.id_ticket }}</th>
-                  <td>{{ ticket.descripcion|truncatechars:50 }}</td>
-                  <td>
-                    <span class="badge {% if ticket.estado == 'abierto' %}bg-success{% elif ticket.estado == 'en_proceso' %}bg-warning{% else %}bg-secondary{% endif %}">
-                      {{ ticket.get_estado_display }}
-                    </span>
-                  </td>
-                  <td>{{ ticket.fecha_creacion|date:"d/m/Y H:i" }}</td>
-                  <td>
-                    <a href=" " class="btn btn-sm btn-outline-primary">Ver Detalles</a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      {% else %}
-        <p class="text-center">No tienes tickets actualmente. ¡Crea uno nuevo para comenzar!</p>
-      {% endif %}
-    </div>
-  </div>
 </div>
 {% endblock %}
+

@@ -12,10 +12,10 @@
         <p><strong>Fecha de creación:</strong> {{ ticket.fecha_creacion|date:"d/m/Y H:i" }}</p>
     </div>
     <div class="mt-4">
-        <a href="{% url 'tecnico:actualizar_ticket' ticket.id %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+        <a href="{% url 'tecnicos:actualizar_ticket' ticket.id_ticket %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
             Actualizar Ticket
         </a>
-        <a href="{% url 'tecnico:cerrar_ticket' ticket.id %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        <a href="{% url 'tecnicos:cerrar_ticket' ticket.id_ticket %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
             Cerrar Ticket
         </a>
     </div>

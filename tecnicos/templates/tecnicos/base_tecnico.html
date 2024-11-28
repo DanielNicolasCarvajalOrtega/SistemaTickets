@@ -12,11 +12,11 @@
         <nav class="container mx-auto px-6 py-3">
             <div class="flex items-center justify-between">
                 <div class="text-xl font-semibold">
-                    <a href="{% url 'inicio_tecnico' %}" class="hover:text-blue-200">Panel de Técnico</a>
+                    <a href="{% url 'tecnicos:inicio_tecnico' %}" class="hover:text-blue-200">Panel de Técnico</a>
                 </div>
                 <div class="flex space-x-4">
-                    <a href="{% url 'listar_tickets' %}" class="hover:text-blue-200">Tickets</a>
-                    <a href= "{% url 'estadisticas' %}" class="hover:text-blue-200">Estadísticas</a>
+                    <a href="{% url 'tecnicos:listar_tickets' %}" class="hover:text-blue-200">Tickets</a>
+                    <a href= "{% url 'tecnicos:estadisticas' %}" class="hover:text-blue-200">Estadísticas</a>
                     <a href="{% url 'logout' %}" class="hover:text-blue-200">Cerrar Sesión</a>
                 </div>
             </div>

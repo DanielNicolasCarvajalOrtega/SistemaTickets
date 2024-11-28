@@ -32,28 +32,28 @@ def listar_tickets(request):
 
 @login_required
 @user_passes_test(es_tecnico)
-def detalle_ticket(request, ticket_id):
-    ticket = get_object_or_404(Ticket, id=ticket_id)
+def detalle_ticket(request, id_ticket):
+    ticket = get_object_or_404(Ticket, id_ticket=id_ticket)
     return render(request, 'tecnicos/detalle_ticket.html', {'ticket': ticket})
 
 @login_required
 @user_passes_test(es_tecnico)
-def actualizar_ticket(request, ticket_id):
-    ticket = get_object_or_404(Ticket, id=ticket_id)
+def actualizar_ticket(request, id_ticket):
+    ticket = get_object_or_404(Ticket, id_ticket=id_ticket)
     if request.method == "POST":
         form = TicketForm(request.POST, instance=ticket)
         if form.is_valid():
             form.save()
             messages.success(request, 'Ticket actualizado correctamente.')
-            return redirect('tecnicos:detalle_ticket', ticket_id=ticket.id)
+            return redirect('tecnicos:detalle_ticket', id_ticket=ticket.id_ticket)
     else:
         form = TicketForm(instance=ticket)
     return render(request, 'tecnicos/actualizar_ticket.html', {'form': form, 'ticket': ticket})
 
 @login_required
 @user_passes_test(es_tecnico)
-def cerrar_ticket(request, ticket_id):
-    ticket = get_object_or_404(Ticket, id=ticket_id)
+def cerrar_ticket(request, id_ticket):
+    ticket = get_object_or_404(Ticket, id_ticket=id_ticket)
     if request.method == "POST":
         ticket.estado = 'cerrado'
         ticket.save()

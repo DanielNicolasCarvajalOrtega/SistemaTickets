@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-gray-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,37 +7,47 @@
     <script src="https://cdn.tailwindcss.com"></script>
     {% block extra_head %}{% endblock %}
 </head>
-<body class="flex flex-col min-h-screen bg-gray-100">
-    <header class="bg-blue-600 text-white shadow-md">
-        <nav class="container mx-auto px-6 py-3">
-            <div class="flex items-center justify-between">
-                <div class="text-xl font-semibold">
-                    <a href="{% url 'inicio_tecnico' %}" class="hover:text-blue-200">Panel de Cliente</a>
+<body class="h-full flex flex-col">
+    <header class="bg-indigo-600">
+        <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
+            <div class="flex w-full items-center justify-between border-b border-indigo-500 py-6 lg:border-none">
+                <div class="flex items-center">
+                    <a href="{% url 'inicio_tecnico' %}" class="text-2xl font-bold text-white hover:text-indigo-50">
+                        Panel de Cliente
+                    </a>
                 </div>
-                <div class="flex space-x-4">
-                    <a href="{% url 'listar_tickets' %}" class="hover:text-blue-200">Tickets</a>
-                    <a href="{% url 'logout' %}" class="hover:text-blue-200">Cerrar Sesión</a>
+                <div class="ml-10 space-x-4">
+                    <a href="{% url 'listar_tickets' %}" class="inline-block rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75">Tickets</a>
+                    <a href="{% url 'logout' %}" class="inline-block rounded-md border border-transparent bg-white py-2 px-4 text-base font-medium text-indigo-600 hover:bg-indigo-50">Cerrar Sesión</a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-8 flex-grow">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="bg-{{ message.tags }}-100 border border-{{ message.tags }}-400 text-{{ message.tags }}-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <span class="block sm:inline">{{ message }}</span>
-                </div>
-            {% endfor %}
-        {% endif %}
+    <main class="flex-grow">
+        <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="rounded-md bg-{{ message.tags }}-50 p-4 mb-4" role="alert">
+                        <div class="flex">
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-{{ message.tags }}-800">
+                                    {{ message }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
 
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
 
-    <footer class="bg-gray-800 text-white py-4">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; {% now "Y" %} Sistema de Tickets. Todos los derechos reservados.</p>
+    <footer class="bg-gray-800">
+        <div class="mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-400">&copy; {% now "Y" %} Sistema de Tickets. Todos los derechos reservados.</p>
         </div>
     </footer>
 

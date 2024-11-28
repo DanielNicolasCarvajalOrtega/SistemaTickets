@@ -35,9 +35,9 @@
                     {{ ticket.get_estado_display }}
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                    <a href="{% url 'tecnico:detalle_ticket' ticket.id %}" class="text-blue-600 hover:text-blue-900">Ver</a>
-                    <a href="{% url 'tecnico:actualizar_ticket' ticket.id %}" class="ml-2 text-green-600 hover:text-green-900">Actualizar</a>
-                    <a href="{% url 'tecnico:cerrar_ticket' ticket.id %}" class="ml-2 text-red-600 hover:text-red-900">Cerrar</a>
+                    <a href="{% url 'tecnicos:detalle_ticket' ticket.id_ticket %}" class="text-blue-600 hover:text-blue-900">Ver</a>
+                    <a href="{% url 'tecnicos:actualizar_ticket' ticket.id_ticket %}" class="ml-2 text-green-600 hover:text-green-900">Actualizar</a>
+                    <a href="{% url 'tecnicos:cerrar_ticket' ticket.id_ticket %}" class="ml-2 text-red-600 hover:text-red-900">Cerrar</a>
                 </td>
             </tr>
             {% endfor %}
