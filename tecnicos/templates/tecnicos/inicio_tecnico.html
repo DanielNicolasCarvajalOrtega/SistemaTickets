@@ -1,0 +1,29 @@
+{% extends "./base_tecnico.html" %}
+
+{% block title %}Panel de Control - Técnico{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <h1 class="text-2xl font-bold mb-6">Panel de Control del Técnico</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-blue-100 p-4 rounded">
+            <h2 class="text-lg font-semibold mb-2">Tickets Abiertos</h2>
+            <p class="text-3xl font-bold">{{ tickets_abiertos }}</p>
+        </div>
+        <div class="bg-yellow-100 p-4 rounded">
+            <h2 class="text-lg font-semibold mb-2">Tickets en Proceso</h2>
+            <p class="text-3xl font-bold">{{ tickets_en_proceso }}</p>
+        </div>
+        <div class="bg-green-100 p-4 rounded">
+            <h2 class="text-lg font-semibold mb-2">Tickets Cerrados</h2>
+            <p class="text-3xl font-bold">{{ tickets_cerrados }}</p>
+        </div>
+    </div>
+    <div class="mt-8">
+        <a href="{% url 'listar_tickets' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Ver todos los tickets
+        </a>
+    </div>
+</div>
+{% endblock %}
+

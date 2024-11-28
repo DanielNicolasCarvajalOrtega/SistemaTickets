@@ -1,0 +1,48 @@
+{% extends "./base_tecnico.html" %}
+
+{% block title %}Lista de Tickets - Técnico{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <h1 class="text-2xl font-bold mb-6">Lista de Tickets</h1>
+    <table class="min-w-full bg-white">
+        <thead>
+            <tr>
+                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    ID
+                </th>
+                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Descripción
+                </th>
+                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Estado
+                </th>
+                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    {{ ticket.id }}
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    {{ ticket.descripcion|truncatechars:50 }}
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    {{ ticket.get_estado_display }}
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    <a href="{% url 'tecnico:detalle_ticket' ticket.id %}" class="text-blue-600 hover:text-blue-900">Ver</a>
+                    <a href="{% url 'tecnico:actualizar_ticket' ticket.id %}" class="ml-2 text-green-600 hover:text-green-900">Actualizar</a>
+                    <a href="{% url 'tecnico:cerrar_ticket' ticket.id %}" class="ml-2 text-red-600 hover:text-red-900">Cerrar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

@@ -1,0 +1,26 @@
+{% extends "./base_tecnico.html" %}
+
+{% block title %}Eliminar Ticket{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">Eliminar Ticket #{{ ticket.id }}</h1>
+    <p class="mb-4">¿Estás seguro de que deseas eliminar este ticket?</p>
+    <form method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {% csrf_token %}
+        <div class="mb-4">
+            <p><strong>Descripción:</strong> {{ ticket.descripcion }}</p>
+            <p><strong>Estado:</strong> {{ ticket.get_estado_display }}</p>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Confirmar Eliminación
+            </button>
+            <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="{% url 'listar_tickets' %}">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
